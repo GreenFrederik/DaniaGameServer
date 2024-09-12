@@ -25,6 +25,12 @@ public class Server
         {
             StringContent content = new(socket.Client.LocalEndPoint.ToString());
             HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080/api/register", content);
+            Console.WriteLine(response);
+
+            if (response.IsSuccessStatusCode)
+                Console.WriteLine("Success!");
+            else
+                Console.WriteLine("bad!");
         }
 
         await Task.Run(Listen);
