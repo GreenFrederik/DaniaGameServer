@@ -1,7 +1,9 @@
 using DaniaGameServer;
+using Newtonsoft.Json;
 using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
+using System.Text;
 
 public class Server
 {
@@ -23,7 +25,7 @@ public class Server
         active = true;
         using (HttpClient http = new())
         {
-            StringContent content = new(socket.Client.LocalEndPoint.ToString());
+            StringContent content = new(JsonConvert.SerializeObject(socket.Client.LocalEndPoint.ToString()), Encoding.UTF8, "application/json");
             HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080/api/register", content);
             Console.WriteLine(response);
 
