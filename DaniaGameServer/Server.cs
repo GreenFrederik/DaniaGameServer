@@ -19,10 +19,16 @@ public class Server
 		connections = new();
 	}
 	
-	public void Start()
+	public async void Start()
 	{
 		active = true;
-		Task.Run(Listen);
+		using (HttpClient http = new())
+		{
+			StringContent content = new(socket.Client.LocalEndPoint.ToString());
+			HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080", content);
+		}
+		
+		await Task.Run(Listen);
 		Console.WriteLine("Server started on port: " + port);
 	}
 	
@@ -119,6 +125,16 @@ public class Server
 							SendToAll(writer);
 						}
 					}
+				}
+				break;
+				
+			case PacketType.Chat:
+				using (PacketReader reader = new(data))
+				{
+					string name = reader.Read<string>();
+					string message = reader.Read<string>();
+					
+					
 				}
 				break;
 		}

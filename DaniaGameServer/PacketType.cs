@@ -6,4 +6,5 @@ public enum PacketType
 	Disconnect = 1,
 	Check = 2,
 	Move = 3,
+	Chat = 4
 }
