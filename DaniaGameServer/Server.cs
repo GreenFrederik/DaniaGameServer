@@ -25,7 +25,12 @@ public class Server
         active = true;
         using (HttpClient http = new())
         {
-            StringContent content = new(socket.Client.LocalEndPoint.ToString());
+            // Use FormUrlEncodedContent to send the parameter as form data
+            var content = new FormUrlEncodedContent(new[]
+            {
+        new KeyValuePair<string, string>("address", socket.Client.LocalEndPoint.ToString())
+    });
+
             HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080/api/Register", content);
             Console.WriteLine(response);
 
