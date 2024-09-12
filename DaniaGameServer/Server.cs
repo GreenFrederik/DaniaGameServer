@@ -32,7 +32,7 @@ public class Server
             if (response.IsSuccessStatusCode)
                 Console.WriteLine("Success!");
             else
-                Console.WriteLine("bad!");
+                Console.WriteLine("bad! " + response);
         }
 
         await Task.Run(Listen);
