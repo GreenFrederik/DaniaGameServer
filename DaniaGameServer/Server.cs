@@ -25,14 +25,16 @@ public class Server
         active = true;
         using (HttpClient http = new())
         {
-            StringContent content = new(JsonConvert.SerializeObject(socket.Client.LocalEndPoint.ToString()), Encoding.UTF8, "application/json");
-            HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080/api/register", content);
+            StringContent content = new(socket.Client.LocalEndPoint.ToString());
+            HttpResponseMessage response = await http.PostAsync("http://selfregistrationservice:8080/api/Register", content);
             Console.WriteLine(response);
 
             if (response.IsSuccessStatusCode)
                 Console.WriteLine("Success!");
             else
+            {
                 Console.WriteLine("bad! " + response);
+            }
         }
 
         await Task.Run(Listen);
